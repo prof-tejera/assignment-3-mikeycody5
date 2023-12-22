@@ -7,7 +7,7 @@ const InputContainer = styled.div`
   flex-direction: row;
   align-items: center;
   background-color: #121212;
-  padding: 10px;
+  
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
   background-image: 
@@ -24,6 +24,8 @@ const LabelContainer = styled.div`
   align-items: center;
   border-radius: 25px;
   margin: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
   background-color: black;
 `;
 
@@ -42,7 +44,7 @@ const SelectInput = styled.select`
   font-weight: 300;
   font-size: 16px;
   padding: 7px;
-  margin: 10px 0px 10px 10px;
+  margin: 12px 0px 12px 12px;
   background-color: darkred;
   color: #fff;
   border: none;
@@ -55,7 +57,7 @@ const SelectInput = styled.select`
   }
 `;
 
-const Input = ({ minutes, setMinutes, seconds, setSeconds, disabled, onStart }) => {
+const Input = ({ minutes, setMinutes, seconds, setSeconds, disabled, }) => {
   const renderOptions = (start, end) => {
     const options = [];
     for (let i = start; i <= end; i++) {

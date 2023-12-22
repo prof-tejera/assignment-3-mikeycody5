@@ -19,6 +19,7 @@ const XY = (props) => {
     timers,
     setTimers,
     timerIsRunning,
+    isPaused,
   } = useContext(GlobalContext);
 
   const isActive = props.index === activeIndex;
@@ -26,7 +27,7 @@ const XY = (props) => {
   useEffect(() => {
     let interval;
 
-    if (isActive && time > 0 && timerIsRunning) {
+    if (isActive && time > 0 && timerIsRunning && !isPaused) {
       interval = setInterval(() => {
         setTime((prevTime) => Math.max(0, prevTime - 1000));
       }, 1000);
@@ -48,8 +49,9 @@ const XY = (props) => {
     }
 
     return () => clearInterval(interval);
-  }, [running, time, initialTime, currentRound, rounds, activeIndex, setActiveIndex,]);
+  }, [running, time, initialTime, currentRound, rounds, activeIndex, setActiveIndex, timerIsRunning, isPaused, index, isActive]);
 
+  
   const handleSetMinutes = (mins) => {
     const timerToEdit = timers[props.index];
     const updatedTimer = {

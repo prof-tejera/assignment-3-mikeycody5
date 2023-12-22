@@ -16,7 +16,6 @@ const Display = styled.div`
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
   position: relative;
 
-  /* Outer background layer with red lines */
   background-image: 
     linear-gradient(135deg, transparent 49.5%, rgba(255, 0, 0, 0.2) 49.5%, rgba(255, 0, 0, 0.2) 50.5%, transparent 50.5%),
     linear-gradient(135deg, transparent 49.5%, rgba(255, 0, 0, 0.2) 49.5%, rgba(255, 0, 0, 0.2) 50.5%, transparent 50.5%),

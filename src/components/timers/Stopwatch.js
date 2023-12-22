@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import Button from "../timers/shared/button.js";
 import DisplayTime from "../timers/shared/DisplayTime.js";
-import Panel from "../timers/shared/Panel.js";
-import { FaFastForward } from "react-icons/fa";
+import Input from "../timers/shared/input.js";
 import { GlobalContext } from "../../App.js";
 
 
@@ -11,37 +9,75 @@ const Stopwatch = (props) => {
   const {
     activeIndex,
     setActiveIndex,
+    timerIsRunning,
+    timers, 
+    setTimers,
+    index,
   } = useContext(GlobalContext);
   const isActive = props.index === activeIndex;
 
   useEffect(() => {
     let interval;
-
-    if (isActive) {
+  
+    if (isActive && timerIsRunning) {
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime + 1000);
+        setTime((prevTime) => {
+          const newTime = prevTime + 1000;
+          if (newTime >= (props.minutes * 60 + props.seconds) * 1000) {
+            console.log({ index, activeIndex });
+            setActiveIndex(props.index + 1);
+            clearInterval(interval);
+          }
+  
+          return newTime;
+        });
       }, 1000);
     } else {
       clearInterval(interval);
+      if (!isActive) {
+        setTime(0);
+      }
     }
-
+  
     return () => clearInterval(interval);
-  }, [isActive, activeIndex]);
+  }, [isActive, index, activeIndex, timerIsRunning, props.index, props.minutes, props.seconds, setActiveIndex]);
+  
+  
 
-  const handleFastForward = () => {
-    setActiveIndex(props.index + 1);
-    setTime(0);
+  const handleSetMinutes = (mins) => {
+    const timerToEdit = timers[props.index];
+    const updatedTimer = {
+      ...timerToEdit,
+      minutes: mins,
+    };
+    const timersCopy = [...timers];
+    timersCopy.splice(props.index, 1, updatedTimer);
+    setTimers(timersCopy);
   };
+
+  const handleSetSeconds = (secs) => {
+    const timerToEdit = timers[props.index];
+    const updatedTimer = {
+      ...timerToEdit,
+      seconds: secs,
+    };
+    const timersCopy = [...timers];
+    timersCopy.splice(props.index, 1, updatedTimer);
+    setTimers(timersCopy);
+  };
+
 
 
   return (
     <div className="stopwatch">
+      <Input
+        minutes={props.minutes}
+        setMinutes={handleSetMinutes}
+        seconds={props.seconds}
+        setSeconds={handleSetSeconds}
+        disabled={isActive}
+      />
       <DisplayTime time={time} />
-      <Panel>
-      <Button onClick={handleFastForward}>
-          <FaFastForward />
-        </Button>
-      </Panel>
     </div>
   );
 };

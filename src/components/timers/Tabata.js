@@ -23,6 +23,7 @@ const Tabata = (props) => {
     timers,
     setTimers,
     timerIsRunning,
+    isPaused,
   } = useContext(GlobalContext);
   const isActive = props.index === activeIndex;
 
@@ -35,10 +36,11 @@ const Tabata = (props) => {
     }
   };
 
+
   useEffect(() => {
     let interval;
   
-    if (isActive && time > 0 && timerIsRunning) {
+    if (isActive && time > 0 && timerIsRunning && !isPaused) {
       interval = setInterval(() => {
         setTime((prevTime) => Math.max(0, prevTime - 1000));
         
@@ -76,9 +78,9 @@ const Tabata = (props) => {
     }
   
     return () => clearInterval(interval);
-  }, [running, time, isResting, initialTime, currentRound, rounds, activeIndex, setActiveIndex,]);
+  }, [running, time, isResting, initialTime, currentRound, rounds, activeIndex, setActiveIndex, timerIsRunning, isPaused, index, isActive]);
   
-
+   
   
   const handleSetMinutes = (mins) => {
     const timerToEdit = timers[props.index];
